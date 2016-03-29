@@ -79,27 +79,6 @@ def print_picture_links(urls):
                 print(image_link)
                 sys.stdout.flush()
             
-
-if __name__ == '__main__':
-    print('Enter Name: ', file=sys.stderr)
-    name = input()
-    #Get Home Page
-    home_page_html = getPage(constants.SITE_URL)
-    
-    #Get Model First Letter Page
-    letter_page_link  = getLetterLink(home_page_html, name[0])
-    letter_page_html = getPage(letter_page_link)
-    
-    #Get Model Page
-    model_page_link = getModelPage(letter_page_html, letter_page_link, name)
-    model_page_html = getPage(model_page_link)
-  
-    #get All Model Page URLs  
-    model_page_urls = get_all_urls_for_model(model_page_link, model_page_html)
-
-    print_picture_links(model_page_urls)
-    
-    print('Done...')
     
     
     

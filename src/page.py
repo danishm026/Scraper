@@ -1,5 +1,6 @@
 import requests
 import constants
+import sys
 
 def getPage(url):
 	timeouts = 0
@@ -12,6 +13,7 @@ def getPage(url):
 				return None
 		except requests.Timeout:
 			timeouts += 1
+	print('Timeout for URL: ' + url, file=sys.stderr)
 	return None
 		
 if __name__ == '__main__':
