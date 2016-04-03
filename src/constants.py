@@ -1,3 +1,6 @@
 SITE_URL = 'http://www.celebwallpaper.org/'
-TIMEOUT = 10
 PARSER = 'html.parser'
+
+TIMEOUT = 10
+TRIES_ON_TIMEOUT = 5
+

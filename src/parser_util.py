@@ -74,24 +74,12 @@ def print_picture_links(urls):
             image_page_link = urllib.parse.urljoin(url, element['href'])
             image_page = getPage(image_page_link)
             if image_page != None:
-                image = getElementsByConstraint(image_page, 'img', 'itemprop', 'contentUrl')[0]
-                image_link = urllib.parse.urljoin(image_page_link, image['src'])
-                print(image_link)
-                sys.stdout.flush()
-            
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+                images = getElementsByConstraint(image_page, 'img', 'itemprop', 'contentUrl')
+                if len(images) > 0:
+                    image = images[0]
+                    image_link = urllib.parse.urljoin(image_page_link, image['src'])
+                    print(image_link)
+                    sys.stdout.flush()
+                else:
+                    print('No img tag with property "itemprop"="contentUrl" for URL:' + image_page_link, file=sys.stderr)
     
