@@ -12,3 +12,4 @@ pyvenv.cfg
 pip-selfcheck.json
 src/out
 */__pycache__/*
+src/test
