@@ -15,6 +15,9 @@ def getPage(url):
 				return None
 		except requests.Timeout:
 			timeouts += 1
+		except Exception as e:
+			print('Exception for URL: ' + url, file=sys.stderr)
+			return None
 	print('Timeout for URL: ' + url, file=sys.stderr)
 	return None
 		

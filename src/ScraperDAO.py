@@ -2,12 +2,16 @@ import pymysql
 import DBDetails
 import DBQueries
 from Model import Model
+from PhotosPerPage import PhotosPerPage
+from ImageLinks import ImageLinks
 
 def getModelByName(name):
     connection = pymysql.connect(DBDetails.DATABASE_URL, DBDetails.USER, DBDetails.PASSWORD, DBDetails.DATABASE_NAME)
     cur = connection.cursor()
     cur.execute(DBQueries.GET_MODEL_INFO_BY_NAME_QUERY, (name))
     row = cur.fetchone()
+    if row == None:
+        return None
     model = Model()
     model.SetId(row[0])
     model.SetName(row[1])
@@ -34,19 +38,14 @@ def save(model, photosPerPageList, imageLinks):
     connection = pymysql.connect(DBDetails.DATABASE_URL, DBDetails.USER, DBDetails.PASSWORD, DBDetails.DATABASE_NAME)
     cur = connection.cursor()
     cur.execute(DBQueries.INSERT_INTO_MODEL_TABLE_QUERY, (model.GetName(), model.GetBasePageUrl(), int(model.GetNoOfPages()), int(model.GetNoOfImages())))
-    cur.execute(DBQueries.INSERT_INTO_PHOTOS_PER_PAGE_TABLE_QUERY)
-    
+    connection.commit()
+    modelId = getModelByName(model.GetName()).GetId()
+    for pageDetail in photosPerPageList:
+        cur.execute(DBQueries.INSERT_INTO_PHOTOS_PER_PAGE_TABLE_QUERY, (int(modelId), int(pageDetail.GetPageNo()), int(pageDetail.GetImagesOnpage()), int(pageDetail.GetStartImageNumber()), int(pageDetail.GetEndeImageNumber())))
+    links = imageLinks.GetImageLinks()
+    for link in links:
+        cur.execute(DBQueries.INSERT_INTO_IMAGE_LINKS_TABLE_QUERY, (int(modelId), link))
     connection.commit()
     connection.close()
         
-if __name__ == '__main__':
-    mod = getModelByName('danish')
-    print(mod.GetId(), mod.GetBasePageUrl(), mod.GetNoOfPages())
-    model = Model()
-    model.SetName('holly')
-    model.SetBasePageUrl('base')
-    model.SetNoOfPages(3)
-    model.SetNoOfImages(451)
-    save(model, None, None)
-    
     

@@ -33,7 +33,7 @@ class PhotosPerPage:
     def SetStartImageNumber(self, startImageNumber):
         self.__starImageNumber = startImageNumber
     
-    def SetEndeImageNumber(self, endImageNumber):
+    def SetEndImageNumber(self, endImageNumber):
         self.__endImageNumber = endImageNumber
     
 
